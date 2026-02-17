@@ -1,6 +1,6 @@
 'use client';
 
-import { usePreferences, useTransactions } from '@/hooks/use-finance';
+import { usePreferences, useTransactions, useCategories } from '@/hooks/use-finance';
 import { utils } from '@/lib/utils';
 import { Plus, CheckCircle } from 'lucide-react';
 import { useMemo } from 'react';
@@ -8,21 +8,31 @@ import { useMemo } from 'react';
 export function SalaryWidget() {
     const { preferences } = usePreferences();
     const { transactions, addTransaction } = useTransactions();
+    const { categories } = useCategories();
 
     const currentMonth = utils.getLocalDateISO().slice(0, 7); // YYYY-MM
+
+    const incomeCategory = useMemo(() =>
+        categories.find(c => c.name === 'Sueldo' || c.name === 'Salario' || c.type === 'income'),
+        [categories]);
 
     const hasSalaryRecorded = useMemo(() => {
         return transactions.some(t =>
             t.type === 'income' &&
             t.date.startsWith(currentMonth) &&
-            (t.description.toLowerCase().includes('sueldo') || t.categoryId === 'cat_income') &&
-            t.amount >= (preferences.baseSalary || 1) // Heuristic: it's likely the salary if it's substantial
+            (t.description.toLowerCase().includes('sueldo') || (incomeCategory && t.categoryId === incomeCategory.id)) &&
+            t.amount >= (preferences.baseSalary || 1)
         );
-    }, [transactions, currentMonth, preferences.baseSalary]);
+    }, [transactions, currentMonth, preferences.baseSalary, incomeCategory]);
 
     const handleRegisterSalary = () => {
         if (!preferences.baseSalary) {
             alert('Primero configura tu sueldo base en Ajustes');
+            return;
+        }
+
+        if (!incomeCategory) {
+            alert('No se encontró una categoría de Ingreso para registrar el sueldo.');
             return;
         }
 
@@ -31,7 +41,7 @@ export function SalaryWidget() {
             date: utils.getLocalDateISO(),
             amount: preferences.baseSalary,
             description: 'Sueldo Mensual',
-            categoryId: 'cat_income', // Default income category
+            categoryId: incomeCategory.id,
             type: 'income',
             notes: 'Registrado automáticamente desde Dashboard'
         });

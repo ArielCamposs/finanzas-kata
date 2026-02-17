@@ -54,7 +54,7 @@ export function TransactionForm() {
     // Auto-select 'Ahorro' category when type is 'goal_contribution'
     useEffect(() => {
         if (type === 'goal_contribution') {
-            const savingsCat = categories.find(c => c.id === 'cat_savings' || c.name === 'Ahorro');
+            const savingsCat = categories.find(c => c.name === 'Ahorro' || c.name === 'Aportes' || c.name === 'Savings');
             if (savingsCat) {
                 setValue('categoryId', savingsCat.id);
             }
