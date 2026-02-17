@@ -5,7 +5,7 @@ import { AppLayout } from "@/components/layout/AppLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
-import { AuthProvider } from "@/components/providers/AuthProvider";
+
 
 export const metadata: Metadata = {
   title: "FinanzasKata",
