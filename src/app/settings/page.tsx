@@ -39,7 +39,7 @@ export default function SettingsPage() {
         e.preventDefault();
         if (!newCatName) return;
         addCategory({
-            id: `cat_${crypto.randomUUID().slice(0, 8)}`,
+            id: crypto.randomUUID(),
             name: newCatName,
             type: newCatType,
             color: newCatType === 'expense' ? '#ef4444' : '#22c55e', // Default colors
