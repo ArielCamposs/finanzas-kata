@@ -57,7 +57,7 @@ export function Sidebar() {
 
             <div className="p-4 border-t border-zinc-200 dark:border-zinc-800">
                 <p className="text-xs text-center text-zinc-400">
-                    v0.1.0 • Local Storage
+                    v0.1.0 • Katita
                 </p>
             </div>
         </aside>

@@ -13,7 +13,7 @@ export function BottomNav() {
         { href: '/transactions', icon: List, label: 'Movimientos' },
         { href: '/add', icon: Plus, label: 'Agregar', isAction: true },
         { href: '/budget', icon: PieChart, label: 'Presupuesto' },
-        { href: '/goals', icon: Target, label: 'Metas' },
+        { href: '/goals', icon: Target, label: 'Ahorros' },
     ];
 
     return (
