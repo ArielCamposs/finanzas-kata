@@ -13,14 +13,15 @@ export interface UserPreferences {
 }
 
 // Default Categories Seed
-{ id: 'cat_rent', name: 'Arriendo', type: 'expense', icon: 'Home', color: '#ef4444' },
-{ id: 'cat_bills', name: 'Cuentas', type: 'expense', icon: 'Zap', color: '#f97316' },
-{ id: 'cat_grocery', name: 'Supermercado', type: 'expense', icon: 'ShoppingCart', color: '#84cc16' },
-{ id: 'cat_transport', name: 'Transporte', type: 'expense', icon: 'Bus', color: '#06b6d4' },
-{ id: 'cat_subs', name: 'Suscripciones', type: 'expense', icon: 'CreditCard', color: '#6366f1' },
-{ id: 'cat_plan', name: 'Plan Celular', type: 'expense', icon: 'Calendar', color: '#8b5cf6' },
-{ id: 'cat_savings', name: 'Ahorro', type: 'expense', icon: 'PiggyBank', color: '#10b981' },
-{ id: 'cat_income', name: 'Ingreso', type: 'income', icon: 'DollarSign', color: '#22c55e', isDefault: true },
+const DEFAULT_CATEGORIES: Category[] = [
+    { id: 'cat_rent', name: 'Arriendo', type: 'expense', icon: 'Home', color: '#ef4444' },
+    { id: 'cat_bills', name: 'Cuentas', type: 'expense', icon: 'Zap', color: '#f97316' },
+    { id: 'cat_grocery', name: 'Supermercado', type: 'expense', icon: 'ShoppingCart', color: '#84cc16' },
+    { id: 'cat_transport', name: 'Transporte', type: 'expense', icon: 'Bus', color: '#06b6d4' },
+    { id: 'cat_subs', name: 'Suscripciones', type: 'expense', icon: 'CreditCard', color: '#6366f1' },
+    { id: 'cat_plan', name: 'Plan Celular', type: 'expense', icon: 'Smartphone', color: '#8b5cf6' },
+    { id: 'cat_savings', name: 'Ahorro', type: 'expense', icon: 'PiggyBank', color: '#10b981' },
+    { id: 'cat_income', name: 'Ingreso', type: 'income', icon: 'DollarSign', color: '#22c55e', isDefault: true },
 ];
 
 export const storage = {
