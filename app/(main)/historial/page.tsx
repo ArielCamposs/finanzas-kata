@@ -2,7 +2,17 @@ import { obtenerDatosMes, obtenerResumenAnual } from '@/lib/action'
 import { ResumenCards } from '@/components/ResumenCards'
 import { ListaTransacciones } from '@/components/ListaTransacciones'
 import { SelectorMes } from '@/components/SelectorMes'
-import { GraficoAnual } from '@/components/charts/GraficoAnual'
+import dynamic from 'next/dynamic'
+
+const GraficoAnual = dynamic(
+    () => import('@/components/charts/GraficoAnual').then(m => m.GraficoAnual),
+    {
+        ssr: false,
+        loading: () => (
+            <div className="h-[300px] rounded-2xl border border-border bg-card animate-pulse" />
+        ),
+    }
+)
 
 interface Props {
     searchParams: Promise<{ mes?: string; anio?: string }>
