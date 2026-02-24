@@ -1,15 +1,5 @@
 'use client'
-import dynamic from 'next/dynamic'
-
-const GraficoCategorias = dynamic(
-    () => import('./GraficoCategorias').then(m => m.GraficoCategorias),
-    {
-        ssr: false,
-        loading: () => (
-            <div className="h-[400px] rounded-2xl border border-border bg-card animate-pulse" />
-        ),
-    }
-)
+import { useEffect, useState, ComponentType } from 'react'
 
 interface Dato {
     categoria: string
@@ -17,5 +7,15 @@ interface Dato {
 }
 
 export function GraficoCategoriasClient({ datos }: { datos: Dato[] }) {
-    return <GraficoCategorias datos={datos} />
+    const [Chart, setChart] = useState<ComponentType<{ datos: Dato[] }> | null>(null)
+
+    useEffect(() => {
+        import('./GraficoCategorias').then(m => setChart(() => m.GraficoCategorias))
+    }, [])
+
+    if (!Chart) return (
+        <div className="h-[400px] rounded-2xl border border-border bg-card animate-pulse" />
+    )
+
+    return <Chart datos={datos} />
 }
