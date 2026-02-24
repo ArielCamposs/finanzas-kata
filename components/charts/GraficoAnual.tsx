@@ -1,85 +1,93 @@
-'use client'
-import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid,
-    Tooltip, ResponsiveContainer, Legend,
-} from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-const MESES_CORTOS = [
-    'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-    'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic',
-]
+const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
 
-interface DatoMes {
-    mes: number
-    ingresos: number
-    gastos: number
-}
+interface DatoMes { mes: number; ingresos: number; gastos: number }
 
-function formatCLP(valor: number) {
+function formatCLP(n: number) {
     return new Intl.NumberFormat('es-CL', {
-        style: 'currency',
-        currency: 'CLP',
-        maximumFractionDigits: 0,
-        notation: 'compact',
-    }).format(valor)
+        style: 'currency', currency: 'CLP',
+        maximumFractionDigits: 0, notation: 'compact',
+    }).format(n)
 }
 
 export function GraficoAnual({ datos }: { datos: DatoMes[] }) {
-    const data = datos.map((d) => ({
-        mes: MESES_CORTOS[d.mes - 1],
-        Ingresos: d.ingresos,
-        Gastos: d.gastos,
-    }))
+    const maxValor = Math.max(...datos.flatMap(d => [d.ingresos, d.gastos]), 1)
+    const altura = 180
+    const anchoBarra = 14
+    const espacio = 40
 
     return (
         <Card className="rounded-2xl border border-border shadow-sm">
             <CardHeader>
                 <CardTitle className="text-base font-semibold">
-                    Ingresos vs Gastos — Año {new Date().getFullYear()}
+                    Ingresos vs Gastos — {new Date().getFullYear()}
                 </CardTitle>
+                <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1.5">
+                        <span className="h-2.5 w-2.5 rounded-full bg-[hsl(152_35%_52%)]" />
+                        Ingresos
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                        <span className="h-2.5 w-2.5 rounded-full bg-[hsl(340_60%_65%)]" />
+                        Gastos
+                    </span>
+                </div>
             </CardHeader>
-            <CardContent>
-                <ResponsiveContainer width="100%" height={260}>
-                    <BarChart data={data} barCategoryGap="30%">
-                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(340 20% 92%)" />
-                        <XAxis
-                            dataKey="mes"
-                            tick={{ fontSize: 12, fill: 'hsl(340 10% 55%)' }}
-                            axisLine={false}
-                            tickLine={false}
-                        />
-                        <YAxis
-                            tickFormatter={formatCLP}
-                            tick={{ fontSize: 11, fill: 'hsl(340 10% 55%)' }}
-                            axisLine={false}
-                            tickLine={false}
-                            width={70}
-                        />
-                        <Tooltip
-                            formatter={(value: any) => formatCLP(Number(value))}
-                            contentStyle={{
-                                borderRadius: '12px',
-                                border: '1px solid hsl(340 20% 90%)',
-                                background: 'white',
-                                fontSize: '13px',
-                            }}
-                        />
-                        <Legend
-                            wrapperStyle={{ fontSize: '13px', paddingTop: '12px' }}
-                        />
-                        <Bar
-                            dataKey="Ingresos"
-                            fill="var(--ingreso)"
-                            radius={[6, 6, 0, 0]}
-                        />
-                        <Bar
-                            dataKey="Gastos"
-                            fill="var(--primary)"
-                            radius={[6, 6, 0, 0]}
-                        />
-                    </BarChart>
-                </ResponsiveContainer>
+            <CardContent className="overflow-x-auto">
+                <svg
+                    width={datos.length * espacio + 40}
+                    height={altura + 40}
+                    className="min-w-full"
+                >
+                    {datos.map((d, i) => {
+                        const x = i * espacio + 20
+                        const hIngreso = (d.ingresos / maxValor) * altura
+                        const hGasto = (d.gastos / maxValor) * altura
+
+                        return (
+                            <g key={d.mes}>
+                                {/* Barra ingresos */}
+                                <rect
+                                    x={x}
+                                    y={altura - hIngreso}
+                                    width={anchoBarra}
+                                    height={hIngreso}
+                                    rx={4}
+                                    fill="hsl(152 35% 52%)"
+                                    opacity={0.85}
+                                />
+                                {/* Barra gastos */}
+                                <rect
+                                    x={x + anchoBarra + 2}
+                                    y={altura - hGasto}
+                                    width={anchoBarra}
+                                    height={hGasto}
+                                    rx={4}
+                                    fill="hsl(340 60% 65%)"
+                                    opacity={0.85}
+                                />
+                                {/* Etiqueta mes */}
+                                <text
+                                    x={x + anchoBarra}
+                                    y={altura + 16}
+                                    textAnchor="middle"
+                                    fontSize={10}
+                                    fill="hsl(340 10% 55%)"
+                                >
+                                    {MESES[d.mes - 1]}
+                                </text>
+                            </g>
+                        )
+                    })}
+                    {/* Línea base */}
+                    <line
+                        x1={16} y1={altura}
+                        x2={datos.length * espacio + 24} y2={altura}
+                        stroke="hsl(340 20% 90%)"
+                        strokeWidth={1}
+                    />
+                </svg>
             </CardContent>
         </Card>
     )
