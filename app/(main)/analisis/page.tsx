@@ -1,16 +1,6 @@
 import { obtenerDatosMes, obtenerGastosPorCategoria, obtenerResumenMesAnterior } from '@/lib/action'
 import { Regla502030 } from '@/components/Regla502030'
-import dynamic from 'next/dynamic'
-
-const GraficoCategorias = dynamic(
-    () => import('@/components/charts/GraficoCategorias').then(m => m.GraficoCategorias),
-    {
-        ssr: false,
-        loading: () => (
-            <div className="h-[400px] rounded-2xl border border-border bg-card animate-pulse" />
-        ),
-    }
-)
+import { GraficoCategoriasClient } from '@/components/charts/GraficoCategoriasClient'
 import { ComparativaMes } from '@/components/ComparativaMes'
 
 export default async function AnalisisPage() {
@@ -46,7 +36,7 @@ export default async function AnalisisPage() {
 
             {/* Categorías + Comparativa en grid */}
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                <GraficoCategorias datos={categorias} />
+                <GraficoCategoriasClient datos={categorias} />
                 <ComparativaMes
                     totalIngresos={totalIngresos}
                     totalGastos={totalGastos}

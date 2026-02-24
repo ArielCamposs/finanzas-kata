@@ -2,17 +2,7 @@ import { obtenerDatosMes, obtenerResumenAnual } from '@/lib/action'
 import { ResumenCards } from '@/components/ResumenCards'
 import { ListaTransacciones } from '@/components/ListaTransacciones'
 import { SelectorMes } from '@/components/SelectorMes'
-import dynamic from 'next/dynamic'
-
-const GraficoAnual = dynamic(
-    () => import('@/components/charts/GraficoAnual').then(m => m.GraficoAnual),
-    {
-        ssr: false,
-        loading: () => (
-            <div className="h-[300px] rounded-2xl border border-border bg-card animate-pulse" />
-        ),
-    }
-)
+import { GraficoAnualClient } from '@/components/charts/GraficoAnualClient'
 
 interface Props {
     searchParams: Promise<{ mes?: string; anio?: string }>
@@ -63,7 +53,7 @@ export default async function HistorialPage({ searchParams }: Props) {
             </div>
 
             {/* Gráfico Anual */}
-            <GraficoAnual datos={resumenAnual} />
+            <GraficoAnualClient datos={resumenAnual} />
 
             {/* Transacciones del mes */}
             <ListaTransacciones ingresos={ingresos} gastos={gastos} />
