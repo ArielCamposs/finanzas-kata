@@ -40,13 +40,13 @@ export function FormIngreso() {
         <Card className="rounded-2xl border border-border shadow-sm">
             <CardHeader>
                 <CardTitle className="text-base font-semibold flex items-center gap-2">
-                    <PlusCircle className="h-4 w-4 text-[hsl(var(--ingreso))]" />
+                    <PlusCircle className="h-4 w-4" style={{ color: 'var(--ingreso)' }} />
                     Nuevo Ingreso
                 </CardTitle>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <div className="flex flex-col gap-1.5">
                             <Label htmlFor="monto-i">Monto ($)</Label>
                             <Input
@@ -95,7 +95,8 @@ export function FormIngreso() {
                     <Button
                         type="submit"
                         disabled={loading}
-                        className="rounded-xl bg-[hsl(var(--ingreso))] hover:bg-[hsl(var(--ingreso))]/90 text-white"
+                        className="rounded-xl text-white"
+                        style={{ backgroundColor: 'var(--ingreso)' }}
                     >
                         {loading ? 'Guardando...' : 'Registrar Ingreso'}
                     </Button>

@@ -99,3 +99,37 @@ export async function obtenerResumenMesAnterior(mes: number, anio: number) {
         totalGastos: gastos?.reduce((s, r) => s + r.monto, 0) ?? 0,
     }
 }
+
+// ── Presupuesto Semanal ──────────────────────────────────────────────────────
+
+export async function guardarPresupuestoSemanal(monto: number, semana: number, anio: number) {
+    const supabase = getSupabase()
+    const { error } = await supabase
+        .from('presupuesto_semanal')
+        .upsert({ semana, anio, monto }, { onConflict: 'semana,anio' })
+    if (error) throw new Error(error.message)
+    revalidatePath('/semana')
+}
+
+export async function obtenerPresupuestoSemanal(semana: number, anio: number) {
+    const supabase = getSupabase()
+    const { data } = await supabase
+        .from('presupuesto_semanal')
+        .select('monto')
+        .eq('semana', semana)
+        .eq('anio', anio)
+        .maybeSingle()
+    return data?.monto ?? null
+}
+
+export async function obtenerGastosSemanales(fechaInicio: string, fechaFin: string) {
+    const supabase = getSupabase()
+    const { data } = await supabase
+        .from('gastos')
+        .select('*')
+        .gte('fecha', fechaInicio)
+        .lte('fecha', fechaFin)
+        .order('fecha', { ascending: false })
+    return data ?? []
+}
+

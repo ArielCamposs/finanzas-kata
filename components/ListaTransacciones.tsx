@@ -52,10 +52,14 @@ export function ListaTransacciones({ ingresos, gastos }: Props) {
                                 <div className="flex items-center gap-3">
                                     <Badge
                                         variant="secondary"
+                                        style={t.tipo === 'ingreso'
+                                            ? { backgroundColor: 'color-mix(in srgb, var(--ingreso) 15%, transparent)', color: 'var(--ingreso)' }
+                                            : undefined
+                                        }
                                         className={
-                                            t.tipo === 'ingreso'
-                                                ? 'bg-[hsl(var(--ingreso))]/15 text-[hsl(var(--ingreso))]'
-                                                : 'bg-primary/15 text-primary'
+                                            t.tipo !== 'ingreso'
+                                                ? 'bg-primary/15 text-primary'
+                                                : ''
                                         }
                                     >
                                         {t.tipo === 'ingreso' ? '+' : '-'}
@@ -72,10 +76,8 @@ export function ListaTransacciones({ ingresos, gastos }: Props) {
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <span
-                                        className={`text-sm font-semibold ${t.tipo === 'ingreso'
-                                            ? 'text-[hsl(var(--ingreso))]'
-                                            : 'text-primary'
-                                            }`}
+                                        className={`text-sm font-semibold ${t.tipo !== 'ingreso' ? 'text-primary' : ''}`}
+                                        style={t.tipo === 'ingreso' ? { color: 'var(--ingreso)' } : undefined}
                                     >
                                         {t.tipo === 'ingreso' ? '+' : '-'}
                                         {formatCLP(t.monto)}

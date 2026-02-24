@@ -8,6 +8,7 @@ import {
     TrendingDown,
     BarChart3,
     Sparkles,
+    CalendarDays,
 } from 'lucide-react'
 import {
     Sidebar,
@@ -25,6 +26,7 @@ import { cn } from '@/lib/utils'
 
 const navItems = [
     { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { label: 'Esta Semana', href: '/semana', icon: CalendarDays },
     { label: 'Historial', href: '/historial', icon: History },
     { label: 'Análisis', href: '/analisis', icon: BarChart3 },
 ]
