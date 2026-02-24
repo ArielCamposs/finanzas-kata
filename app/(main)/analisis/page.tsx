@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { obtenerDatosMes, obtenerGastosPorCategoria, obtenerResumenMesAnterior } from '@/lib/action'
 import { Regla502030 } from '@/components/Regla502030'
 import { GraficoCategorias } from '@/components/charts/GraficoCategorias'

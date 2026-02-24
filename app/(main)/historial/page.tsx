@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { obtenerDatosMes, obtenerResumenAnual } from '@/lib/action'
 import { ResumenCards } from '@/components/ResumenCards'
 import { ListaTransacciones } from '@/components/ListaTransacciones'
